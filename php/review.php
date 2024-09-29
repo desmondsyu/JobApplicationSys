@@ -6,6 +6,7 @@ $errorMessage = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
+        // write session to file
         $applicationData = [
             "personalInfo" => $_SESSION["personalInfo"],
             "educationalInfo" => $_SESSION["educationalInfo"],

@@ -7,6 +7,7 @@ $institution = "";
 $graduationYear = "";
 $errorMessage = "";
 
+// get value from session
 if (isset($_SESSION["educationalInfo"])) {
     $degree = $_SESSION["educationalInfo"]["degree"];
     $studyField = $_SESSION["educationalInfo"]["studyField"];
@@ -14,11 +15,14 @@ if (isset($_SESSION["educationalInfo"])) {
     $graduationYear =  $_SESSION["educationalInfo"]["graduationYear"];
 }
 
+// handle post
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["degree"]) || empty($_POST["studyField"]) || empty($_POST["institution"]) || empty($_POST["graduationYear"])) {
         $errorMessage .= "<p>Please fill all fields!</p>";
     } else {
         try {
+
+            // validate
             if (!preg_match("/^[a-zA-Z'\\-\\s]{2,100}$/", $_POST["degree"])) {
                 throw new Exception("<p>Please enter valid degree.</p>");
             }
@@ -35,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 throw new Exception("<p>Please enter a valid year.</p>");
             }
 
+            // write value to session
             $_SESSION["educationalInfo"] =
                 [
                     "degree" => $_POST["degree"],
@@ -42,7 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     "institution" => $_POST["institution"],
                     "graduationYear" => $_POST["graduationYear"]
                 ];
-
+            
+            // navigate
             header("Location: work_info.php");
             exit();
         } catch (Exception $e) {

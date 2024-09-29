@@ -7,6 +7,7 @@ $experience = "";
 $responsibilities = "";
 $errorMessage = "";
 
+// auto fill value from session
 if (isset($_SESSION["workInfo"])) {
     $jobTitle = $_SESSION["workInfo"]["jobTitle"];
     $company = $_SESSION["workInfo"]["company"];
@@ -14,11 +15,13 @@ if (isset($_SESSION["workInfo"])) {
     $responsibilities =  $_SESSION["workInfo"]["responsibilities"];
 }
 
+// handle post
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["jobTitle"]) || empty($_POST["company"]) || empty($_POST["experience"]) || empty($_POST["responsibilities"])) {
         $errorMessage .= "<p>Please fill all fields!</p>";
     } else {
         try {
+            // validate
             if (!preg_match("/^[a-zA-Z'\\-\\s]{2,100}$/", $_POST["jobTitle"])) {
                 throw new Exception("<p>Please enter valid degree.</p>");
             }
@@ -35,6 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 throw new Exception("<p>Please enter responsibilities.</p>");
             }
 
+            // write form value to session
             $_SESSION["workInfo"] =
                 [
                     "jobTitle" => $_POST["jobTitle"],
@@ -43,6 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     "responsibilities" => $_POST["responsibilities"]
                 ];
 
+            // navigate
             header("Location: review.php");
             exit();
         } catch (Exception $e) {

@@ -1,15 +1,18 @@
 <?php
 session_start();
 
+// 
 $username = "";
 $password = "";
 $rememberUser = false;
 $errorMessage = "";
 
+// auto fill username from cookie
 if (isset($_COOKIE["savedUser"])) {
     $username = $_COOKIE["savedUser"];
 }
 
+// handle post 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["username"]) || empty($_POST["password"])) {
         $errorMessage .= "<p>Please fill all fields!</p>";
@@ -24,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $validUser = null;
 
+            // find user
             foreach ($users as $user) {
                 if ($user["username"] === $username && password_verify($password, $user['password'])) {
                     $validUser = $user;
@@ -31,6 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
             }
 
+            // handle valid user
             if ($validUser) {
                 $_SESSION["username"] = $username;
 
@@ -39,6 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     setcookie("savedUser", $username, time() + $lifetime, "/");
                 }
 
+                // navigate
                 header("Location: index.php");
                 exit();
             } else {

@@ -6,17 +6,21 @@ $email = "";
 $phone = "";
 $errorMessage = "";
 
+// get value from session
 if (isset($_SESSION["personalInfo"])) {
     $fullName = $_SESSION["personalInfo"]["fullName"];
     $email = $_SESSION["personalInfo"]["email"];
     $phone = $_SESSION["personalInfo"]["phone"];
 }
 
+// handle post
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["fullName"]) || empty($_POST["email"]) || empty($_POST["phone"])) {
         $errorMessage .= "<p>Please fill all fields!</p>";
     } else {
         try {
+
+            // validate
             if (!preg_match("/^[a-zA-Z'\\-\\s]{2,100}$/", $_POST["fullName"])) {
                 throw new Exception("<p>Please enter a name.</p>");
             }
@@ -29,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 throw new Exception("<p>Please enter a valid phone number.</p>");
             }
 
+            // write form value to session
             $_SESSION["personalInfo"] =
                 [
                     "fullName" => $_POST["fullName"],
@@ -36,6 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     "phone" => $_POST["phone"]
                 ];
 
+            // navigate
             header("Location: educational_info.php");
             exit();
         } catch (Exception $e) {

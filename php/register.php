@@ -4,12 +4,14 @@ $email = "";
 $password = "";
 $errorMessage = "";
 
+// handle post
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($_POST["username"]) || empty($_POST["email"]) || empty($_POST["password"])) {
         $errorMessage .= "<p>Please fill all fields!</p>";
     } else {
         try {
+            // validate
             if (!preg_match("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", $_POST["email"])) {
                 throw new Exception("<p>Please enter a valid email address.</p>");
             }
@@ -17,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 throw new Exception("<p>The password is too weak! Please enter a stronger password.</p>");
             }
 
+            // write value, hash password
             $username = $_POST["username"];
             $email = $_POST["email"];
             $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
@@ -32,6 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
             }
 
+            // wirte values to file
             $newUser = ["username" => $username, "email" => $email, "password" => $password];
             $users[] = $newUser;
 
