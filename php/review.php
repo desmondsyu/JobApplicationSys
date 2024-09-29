@@ -23,10 +23,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         mail($_SESSION["personalInfo"]["email"], "Submit Confirmation", "Application submitted!");
 
-        // unset($_SESSION["personalInfo"]);
-        // unset($_SESSION["educationalInfo"]);
-        // unset($_SESSION["workInfo"]);
-
     } catch (Exception $e) {
         $errorMessage .= "<p>" . $e->getMessage() . "</p>";
     }
@@ -96,4 +92,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </a>
     <button type="submit">Submit</button>
     <?php echo $errorMessage ?>
+</form>
+
+<form action="logout.php" method="POST">
+    <button type="submit">Logout</button>
 </form>

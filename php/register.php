@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $email = $_POST["email"];
             $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
-            $authFile = "../users.json";
+            $authFile = "users.json";
             $users = json_decode(file_get_contents($authFile), true);
 
             if (!empty($users)) {
@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 
-<form action="register.php" method="POST">
+<form action="" method="POST">
     <h1>Register</h1>
     <label>Username</label>
     <input type="text" name="username" /><br>
@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <input type="password" name="password" /><br>
     <p>
         <button type="submit">Register</button>
-        <a href="login.php">
+        <a href="index.php">
             <button type="button">Login</button>
         </a>
         <?php echo $errorMessage ?>

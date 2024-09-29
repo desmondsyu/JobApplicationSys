@@ -6,13 +6,9 @@ session_destroy();
 
 if (isset($_COOKIE['savedUser'])) {
     $lifetime = 60 * 60 * 24 * 7;
-    setcookie("savedUser", $username, time() - $lifetime, "/");
+    setcookie("savedUser", "", time() - $lifetime, "/");
 }
 
-header("Location: login.php");
+header('Location: ../index.php');
 exit();
 ?>
-
-<form action="logout.php" method="POST">
-    <button type="submit">Logout</button>
-</form>

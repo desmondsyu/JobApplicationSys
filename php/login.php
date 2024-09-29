@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $password = $_POST["password"];
             $rememberUser = isset($_POST["remember"]);
 
-            $authFile = "../users.json";
+            $authFile = "users.json";
             $users = json_decode(file_get_contents($authFile), true);
 
             $validUser = null;
@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     setcookie("savedUser", $username, time() + $lifetime, "/");
                 }
 
-                header("Location: personal_info.php");
+                header("Location: index.php");
                 exit();
             } else {
                 throw new Exception("<p>Incorrect credentials!</p>");
@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 ?>
 
-<form action="login.php" method="POST">
+<form action="" method="POST">
     <h1>Login</h1>
 
     <label>Username</label>
@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <input type="checkbox" name="remember" /><br>
 
     <button type="submit">Login</button>
-    <a href="register.php">
+    <a href="register_page.php">
         <button type="button">Register</button>
     </a>
     <?php echo $errorMessage ?>

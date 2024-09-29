@@ -73,3 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <button type="submit">Next</button>
     <?php echo $errorMessage ?>
 </form>
+
+<form action="logout.php" method="POST">
+    <button type="submit">Logout</button>
+</form>
