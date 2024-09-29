@@ -3,25 +3,37 @@ session_start();
 
 $errorMessage = "";
 
-// if ($_SERVER["REQUEST_METHOD"] == "GET") {
-// $fullName = $_SESSION["personalInfo"]["fullName"];
-// $email = $_SESSION["personalInfo"]["email"];
-// $phone = $_SESSION["personalInfo"]["phone"];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-// $degree = $_SESSION["educationalInfo"]["degree"];
-// $studyField = $_SESSION["educationalInfo"]["studyField"];
-// $institution = $_SESSION["educationalInfo"]["institution"];
-// $graduationYear =  $_SESSION["educationalInfo"]["graduationYear"];
+    try {
+        $applicationData = [
+            "personalInfo" => $_SESSION["personalInfo"],
+            "educationalInfo" => $_SESSION["educationalInfo"],
+            "workInfo" => $_SESSION["workInfo"],
+        ];
 
-// $jobTitle = $_SESSION["workInfo"]["jobTitle"];
-// $company = $_SESSION["workInfo"]["company"];
-// $experience = $_SESSION["workInfo"]["experience"];
-// $responsibilities =  $_SESSION["workInfo"]["responsibilities"];
-// }
+        $applicationFile = "../applications.json";
+        $applications = json_decode(file_get_contents($applicationFile), true);
 
+        $applications[] = $applicationData;
+
+        file_put_contents($applicationFile, json_encode($applications));
+
+        $errorMessage .= "<p>Application submitted! Email sent to " . $_SESSION["personalInfo"]["email"] . "</p>";
+        
+        mail($_SESSION["personalInfo"]["email"], "Submit Confirmation", "Application submitted!");
+
+        // unset($_SESSION["personalInfo"]);
+        // unset($_SESSION["educationalInfo"]);
+        // unset($_SESSION["workInfo"]);
+
+    } catch (Exception $e) {
+        $errorMessage .= "<p>" . $e->getMessage() . "</p>";
+    }
+}
 ?>
 
-<form action="review.php" method="GET">
+<form action="review.php" method="POST">
     <h1>Review</h1>
 
     <div>
@@ -58,7 +70,7 @@ $errorMessage = "";
 
     <label>Year of Graduation</label>
     <input type="text" name="graduationYear" value="<?php echo $_SESSION["educationalInfo"]["graduationYear"]; ?>" disabled /><br>
-    "
+
     <div>
         <h2>Work Experience Information</h2>
         <a href="work_info.php">
@@ -79,7 +91,9 @@ $errorMessage = "";
     <label>Key Responsibilities</label>
     <input type="text" name="responsibilities" value="<?php echo $_SESSION["workInfo"]["responsibilities"]; ?>" disabled /><br>
 
-    <button type="button">Previous</button>
+    <a href="work_info.php">
+        <button type="button">Previous</button>
+    </a>
     <button type="submit">Submit</button>
     <?php echo $errorMessage ?>
 </form>

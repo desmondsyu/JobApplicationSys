@@ -67,7 +67,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label>Year of Graduation</label>
     <input type="text" name="graduationYear" value="<?php echo $graduationYear; ?>" /><br>
 
-    <button type="button">Previous</button>
+    <a href="personal_info.php">
+        <button type="button">Previous</button>
+    </a>
     <button type="submit">Next</button>
     <?php echo $errorMessage ?>
 </form>

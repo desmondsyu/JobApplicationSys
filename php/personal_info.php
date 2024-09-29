@@ -56,7 +56,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label>Phone Number</label>
     <input type="text" name="phone" value="<?php echo $phone; ?>" /><br>
 
-    <button type="button">Previous</button>
     <button type="submit">Next</button>
     <?php echo $errorMessage ?>
 </form>

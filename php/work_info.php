@@ -67,7 +67,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label>Key Responsibilities</label>
     <input type="text" name="responsibilities" value="<?php echo $responsibilities; ?>" /><br>
 
-    <button type="button">Previous</button>
+    <a href="educational_info.php">
+        <button type="button">Previous</button>
+    </a>
     <button type="submit">Next</button>
     <?php echo $errorMessage ?>
 </form>
